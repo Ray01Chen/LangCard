@@ -1,6 +1,24 @@
-.thai-dictionary.jsonl
-.translation-cache.json
-__pycache__/
+# Installed packages and local Python environments.
 node_modules/
-.sites-*/
-.sites-package*.tar
+.venv/
+
+# Python interpreter artifacts.
+__pycache__/
+*.py[cod]
+
+# Local builder input and translation cache; published card data stays tracked.
+/.thai-dictionary.jsonl
+/.translation-cache.json
+
+# Local environment settings; example templates can be committed.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Managed Sites checkouts and deployment archives in the project root.
+/.sites-*/
+/.sites-package*.tar
+
+# npm diagnostic logs.
+npm-debug.log*
