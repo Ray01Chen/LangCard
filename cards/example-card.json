@@ -1,0 +1,95 @@
+{
+  "format": "langcard-cards-v3",
+  "exportedAt": "2026-10-27T02:22:16.627Z",
+  "scope": "template",
+  "cards": [
+    {
+      "id": "custom-wireless-charger-example",
+      "topic": "technology",
+      "kind": "word",
+      "level": "intermediate",
+      "forms": {
+        "en": {
+          "text": "wireless charger",
+          "reading": "wireless charger",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "zh": {
+          "text": "無線充電器",
+          "reading": "wú xiàn chōng diàn qì",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "th": {
+          "text": "ที่ชาร์จไร้สาย",
+          "reading": "thîi-châat rái-sǎai",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "ja": {
+          "text": "ワイヤレス充電器",
+          "reading": "waiyaresu jūdenki",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "es": {
+          "text": "cargador inalámbrico",
+          "reading": "cargador inalámbrico",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "ko": {
+          "text": "무선 충전기",
+          "reading": "museon chungjeongi",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "fr": {
+          "text": "chargeur sans fil",
+          "reading": "chargeur sans fil",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "de": {
+          "text": "kabelloses Ladegerät",
+          "reading": "kabelloses Ladegerät",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "vi": {
+          "text": "bộ sạc không dây",
+          "reading": "bộ sạc không dây",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        },
+        "id": {
+          "text": "pengisi daya nirkabel",
+          "reading": "pengisi daya nirkabel",
+          "example": "",
+          "exampleReading": "",
+          "tokens": [],
+          "exampleTokens": []
+        }
+      }
+    }
+  ]
+}

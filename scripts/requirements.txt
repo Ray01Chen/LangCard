@@ -1,0 +1,5 @@
+requests
+pythainlp
+pypinyin
+pykakasi
+hangul-romanize

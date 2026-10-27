@@ -1,0 +1,6 @@
+.thai-dictionary.jsonl
+.translation-cache.json
+__pycache__/
+node_modules/
+.sites-*/
+.sites-package*.tar

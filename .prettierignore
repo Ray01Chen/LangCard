@@ -1,0 +1,11 @@
+# Generated dictionary tables stay compact; edit their documented sources.
+dist/data-*.js
+cards/example-card.json
+scripts/last-card-audit.json
+package-lock.json
+.openai/
+.sites-*/
+.translation-cache.json
+.thai-dictionary.jsonl
+node_modules/
+__pycache__/

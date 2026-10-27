@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f6f1" />
+    <meta name="description" content="用主題字卡、讀法、語音與小測驗，輕鬆學習泰語和更多語言。" />
+    <title>LangCard — 每天一點，慢慢說得更遠</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=13" />
+    <!-- Load configuration, immutable data, adapters, then the UI controller in this order. -->
+    <script src="config.js?v=13" defer></script>
+    <script src="data-th-tokens.js?v=13" defer></script>
+    <script src="data-th-readings.js?v=13" defer></script>
+    <script src="data-multilingual.js?v=13" defer></script>
+    <script src="data-permanent-cards.js?v=13" defer></script>
+    <script src="data-language-corrections.js?v=13" defer></script>
+    <script src="data-token-readings.js?v=13" defer></script>
+    <script src="data-token-meanings.js?v=13" defer></script>
+    <script src="card-json.js?v=13" defer></script>
+    <script src="language-support.js?v=13" defer></script>
+    <script src="i18n.js?v=13" defer></script>
+    <script src="app.js?v=13" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主要導覽" data-i18n-aria="mainNavigation">
+        <a class="brand" href="#study" aria-label="LangCard 首頁" data-i18n-aria="brandHome">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+          <span class="brand-name"
+            >langcard<span class="brand-dot">.</span
+            ><small data-i18n="brandTagline">你的語言練習空間</small></span
+          >
+        </a>
+
+        <div class="sidebar-label" data-i18n="learningSpace">學習空間</div>
+        <nav class="side-nav" aria-label="功能" data-i18n-aria="navigation">
+          <button type="button" class="nav-item is-active" data-view="study" aria-current="page">
+            <span class="nav-icon">▦</span> <span data-i18n="studyNav">字卡學習</span>
+          </button>
+          <button type="button" class="nav-item" data-view="quiz">
+            <span class="nav-icon">✦</span> <span data-i18n="quizNav">小測驗</span>
+          </button>
+          <button type="button" class="nav-item" data-view="library">
+            <span class="nav-icon">▤</span> <span data-i18n="libraryNav">我的字庫</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-note">
+            <span class="sidebar-note-icon">✳</span>
+            <strong data-i18n="sidebarNoteTitle">每天一點點</strong>
+            <p data-i18n="sidebarNoteBody">一個新字、一句新話，都是走向世界的一步。</p>
+          </div>
+          <div class="sidebar-footer" data-i18n="footerTagline">LANGCARD · 依自己的步調學習</div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb">
+            <span class="breadcrumb-mark">✳</span> <span id="breadcrumbText">字卡學習</span>
+          </div>
+          <div class="topbar-actions">
+            <span class="today-label" id="todayLabel"></span>
+            <label class="top-select"
+              ><span data-i18n="interfaceLanguage">介面語言</span
+              ><select id="uiLanguage">
+                <option value="zh">繁體中文</option>
+                <option value="en">English</option>
+                <option value="th">ภาษาไทย</option>
+              </select></label
+            >
+            <label class="top-select"
+              ><span data-i18n="colorTheme">主題顏色</span
+              ><select id="themeSelect">
+                <option value="forest" data-i18n="themeForest">森林綠</option>
+                <option value="ocean" data-i18n="themeOcean">海洋藍</option>
+                <option value="lavender" data-i18n="themeLavender">薰衣紫</option>
+                <option value="sunset" data-i18n="themeSunset">暖日橘</option>
+              </select></label
+            >
+            <button
+              class="button button-dark button-small"
+              id="topAddButton"
+              type="button"
+              aria-label="新增字卡"
+              data-i18n-aria="addCard"
+            >
+              <span aria-hidden="true">＋</span> <span data-i18n="addCard">新增字卡</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="view is-active" id="studyView" aria-labelledby="studyHeading">
+            <div class="hero">
+              <div class="hero-copy">
+                <span class="eyebrow"
+                  ><span class="eyebrow-line"></span>
+                  <span data-i18n="heroEyebrow">你的語言空間</span></span
+                >
+                <h1 id="studyHeading">
+                  <span data-i18n="heroLine1">每天一點，</span><br /><em data-i18n="heroLine2"
+                    >慢慢說得更遠。</em
+                  >
+                </h1>
+                <p data-i18n="heroSubtitle">從一句實用的話開始，讓新語言變成生活的一部分。</p>
+              </div>
+              <div class="hero-art" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <span class="hero-glyph glyph-one">ก</span
+                ><span class="hero-glyph glyph-two">A</span
+                ><span class="hero-glyph glyph-three">あ</span
+                ><span class="hero-spark spark-one">✳</span
+                ><span class="hero-spark spark-two">✳</span>
+              </div>
+            </div>
+
+            <div class="language-panel" aria-label="選擇學習語言" data-i18n-aria="pairAria">
+              <div class="language-panel-title">
+                <span class="panel-icon">↗</span>
+                <div>
+                  <strong data-i18n="pairTitle">我的學習組合</strong
+                  ><small data-i18n="pairSubtitle">選擇你熟悉的語言，以及想學的語言</small>
+                </div>
+              </div>
+              <div class="language-controls">
+                <label class="select-field"
+                  ><span data-i18n="baseLanguage">我會的語言</span
+                  ><select id="baseLanguage"></select
+                ></label>
+                <button
+                  class="swap-button"
+                  id="swapLanguages"
+                  type="button"
+                  aria-label="交換兩種語言"
+                  title="交換兩種語言"
+                  data-i18n-aria="swapLanguages"
+                  data-i18n-title="swapLanguages"
+                >
+                  ⇄
+                </button>
+                <label class="select-field"
+                  ><span data-i18n="targetLanguage">想學的語言</span
+                  ><select id="targetLanguage"></select
+                ></label>
+              </div>
+            </div>
+
+            <div class="level-filter">
+              <strong data-i18n="levelPrompt">選擇程度</strong>
+              <div
+                id="levelList"
+                role="group"
+                aria-label="選擇程度"
+                data-i18n-aria="levelAria"
+              ></div>
+            </div>
+            <div class="kind-filter">
+              <strong data-i18n="kindPrompt">學習類型</strong>
+              <div
+                id="kindList"
+                role="group"
+                aria-label="學習類型"
+                data-i18n-aria="kindPrompt"
+              ></div>
+            </div>
+            <div class="section-heading topics-heading">
+              <div>
+                <span class="section-kicker" data-i18n="topicsEyebrow">探索主題</span>
+                <h2 data-i18n="topicPrompt">今天想學什麼？</h2>
+              </div>
+              <span id="topicTotal" class="muted-count"></span>
+            </div>
+            <label class="mobile-topic-picker"
+              ><span data-i18n="topicLabel">主題</span
+              ><select
+                id="mobileTopicSelect"
+                aria-label="選擇主題"
+                data-i18n-aria="topicAria"
+              ></select
+            ></label>
+            <div
+              class="topic-list"
+              id="topicList"
+              role="group"
+              aria-label="選擇主題"
+              data-i18n-aria="topicAria"
+            ></div>
+
+            <div class="study-grid">
+              <section class="study-column" aria-labelledby="cardSectionHeading">
+                <div class="section-heading card-section-heading">
+                  <div>
+                    <span class="section-kicker" data-i18n="practiceEyebrow">每日練習</span>
+                    <h2 id="cardSectionHeading" data-i18n="practiceTitle">開始練習</h2>
+                  </div>
+                  <span id="cardPosition" class="muted-count"></span>
+                </div>
+                <div id="studyCardHost"></div>
+              </section>
+              <aside
+                class="insight-column"
+                aria-label="學習進度與快捷功能"
+                data-i18n-aria="insightAria"
+              >
+                <div class="insight-card progress-card">
+                  <div class="insight-top">
+                    <span class="mini-icon mini-icon-green">✳</span
+                    ><span class="subtle-label" data-i18n="progressTitle">你的進度</span>
+                  </div>
+                  <strong id="masteryNumber" class="big-number">0<span>%</span></strong>
+                  <p id="masteryText">開始練習，記住你的第一個字。</p>
+                  <div class="progress-track"><span id="masteryBar"></span></div>
+                  <div class="progress-foot">
+                    <span data-i18n="masteredLabel">已學會</span
+                    ><strong id="masteryCount">0 / 0</strong>
+                  </div>
+                </div>
+                <div class="insight-card quiz-teaser">
+                  <div class="insight-top">
+                    <span class="mini-icon mini-icon-peach">✦</span
+                    ><span class="subtle-label" data-i18n="quickChallenge">快速挑戰</span>
+                  </div>
+                  <h3>
+                    <span data-i18n="quizTeaserLine1">學過了，</span><br /><span
+                      data-i18n="quizTeaserLine2"
+                      >來試試記得多少？</span
+                    >
+                  </h3>
+                  <p data-i18n="quizTeaserBody">幾分鐘的小測驗，幫你把新字記得更牢。</p>
+                  <button class="text-link" id="goQuiz" type="button">
+                    <span data-i18n="startQuiz">開始測驗</span> <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="quizView" aria-labelledby="quizHeading" hidden>
+            <div class="page-heading">
+              <div>
+                <span class="section-kicker" data-i18n="quizEyebrow">快速測驗</span>
+                <h1 id="quizHeading">
+                  <span data-i18n="quizNav">小測驗</span><span class="heading-accent">✦</span>
+                </h1>
+                <p data-i18n="quizDescription">用短短幾題，確認今天記住了哪些字。</p>
+              </div>
+            </div>
+            <div class="quiz-layout">
+              <div class="quiz-main" id="quizHost"></div>
+              <aside class="quiz-aside">
+                <div class="tip-card">
+                  <span class="mini-icon mini-icon-peach">✳</span>
+                  <h3 data-i18n="tipTitle">小小提醒</h3>
+                  <p data-i18n="tipBody">答錯沒關係。回到字卡再看一次，就是最好的複習。</p>
+                </div>
+                <div class="pair-summary" id="quizPairSummary"></div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="libraryView" aria-labelledby="libraryHeading" hidden>
+            <div class="page-heading library-heading">
+              <div>
+                <span class="section-kicker" data-i18n="libraryEyebrow">你的字詞收藏</span>
+                <h1 id="libraryHeading">
+                  <span data-i18n="libraryNav">我的字庫</span><span class="heading-accent">▤</span>
+                </h1>
+                <p data-i18n="libraryDescription">收藏每一個新認識的詞，也能隨時新增自己的字卡。</p>
+              </div>
+              <button
+                class="button button-dark"
+                id="libraryAddButton"
+                type="button"
+                aria-label="新增字卡"
+                data-i18n-aria="addCard"
+              >
+                <span aria-hidden="true">＋</span> <span data-i18n="addCard">新增字卡</span>
+              </button>
+            </div>
+            <div class="library-toolbar">
+              <label class="search-field"
+                ><span aria-hidden="true">⌕</span
+                ><input
+                  type="search"
+                  id="librarySearch"
+                  placeholder="搜尋字詞、翻譯或讀法"
+                  aria-label="搜尋字卡"
+                  data-i18n-placeholder="searchPlaceholder"
+                  data-i18n-aria="searchAria" /></label
+              ><span id="libraryCount" class="muted-count"></span>
+            </div>
+            <div class="library-kind-filter">
+              <strong data-i18n="kindPrompt">學習類型</strong>
+              <div
+                id="libraryKindTabs"
+                role="group"
+                aria-label="學習類型"
+                data-i18n-aria="kindPrompt"
+              ></div>
+            </div>
+            <div class="library-filters">
+              <label
+                ><span data-i18n="topicLabel">主題</span
+                ><select id="libraryTopic"></select></label
+              ><label
+                ><span data-i18n="levelPrompt">程度</span
+                ><select id="libraryLevel"></select
+              ></label>
+            </div>
+            <div class="library-tools">
+              <button class="tool-button" id="importButton" type="button">
+                <span aria-hidden="true">↥</span> <span data-i18n="importCards">匯入字卡</span>
+              </button>
+              <details class="export-menu" id="exportMenu">
+                <summary class="tool-button">
+                  <span aria-hidden="true">↧</span> <span data-i18n="exportCards">匯出字卡</span>
+                </summary>
+                <div class="export-menu-popover">
+                  <button type="button" id="exportLibraryJson" data-i18n="exportLibraryJson">
+                    目前字庫 JSON（含所有語言）</button
+                  ><button type="button" id="exportJson" data-i18n="exportJson">
+                    所有自訂字卡 JSON</button
+                  ><button type="button" id="downloadTemplate" data-i18n="jsonTemplate">
+                    下載 JSON 範本
+                  </button>
+                </div>
+              </details>
+              <span class="library-hint" data-i18n="importHint"
+                >僅匯入 JSON，重複字卡會自動略過</span
+              ><input type="file" id="importInput" accept=".json,application/json" hidden />
+            </div>
+            <p class="library-storage-note" data-i18n="localStorageHint">
+              自行新增的字卡存在這台裝置的瀏覽器；換裝置前請匯出 JSON 備份。
+            </p>
+            <details class="permanent-help">
+              <summary data-i18n="permanentHelpTitle">如何永久新增到網站？</summary>
+              <p data-i18n="cardDataHint">
+                一張卡是一個單字、詞組或句子；各語言的文字、讀法和例句放在同一張卡裡。
+              </p>
+              <ol>
+                <li data-i18n="permanentStepOne">先用「新增字卡」填好內容。</li>
+                <li data-i18n="permanentStepTwo">匯出「所有自訂字卡 JSON」。</li>
+                <li data-i18n="permanentStepThree">
+                  把 JSON 交給網站維護者加入內建字庫並發布，其他裝置與訪客就看得到了。
+                </li>
+              </ol>
+              <p data-i18n="permanentBrowserNote">
+                網站上的新增與匯入只會存入目前瀏覽器，不會直接修改全站字庫。
+              </p>
+            </details>
+            <p class="library-storage-note" data-i18n="machineTranslationHint">
+              新增語言由機器翻譯輔助，請搭配語境閱讀；Google Translate 可聽讀音及核對翻譯。
+            </p>
+            <div class="library-grid" id="libraryGrid"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="cardDialog" class="card-dialog" aria-labelledby="dialogTitle">
+      <form id="cardForm" novalidate>
+        <div class="dialog-head">
+          <div>
+            <span class="section-kicker" data-i18n="dialogEyebrow">建立專屬字卡</span>
+            <h2 id="dialogTitle">新增字卡</h2>
+          </div>
+          <button
+            class="icon-close"
+            id="closeDialog"
+            type="button"
+            aria-label="關閉"
+            data-i18n-aria="close"
+          >
+            ×
+          </button>
+        </div>
+        <p class="dialog-pair" id="dialogPair"></p>
+        <div class="form-grid">
+          <label class="form-field"
+            ><span id="termLabel">想學的字詞 <b>*</b></span
+            ><input id="termInput" name="term" maxlength="2000" required placeholder="例如：สวัสดี"
+          /></label>
+          <label class="form-field"
+            ><span data-i18n="readingLabel">讀法／拼音</span
+            ><input
+              id="readingInput"
+              name="reading"
+              maxlength="4000"
+              placeholder="例如：sà-wàt-dii"
+              data-i18n-placeholder="readingPlaceholder"
+          /></label>
+          <label class="form-field form-full"
+            ><span id="translationLabel">翻譯 <b>*</b></span
+            ><input
+              id="translationInput"
+              name="translation"
+              maxlength="2000"
+              required
+              placeholder="例如：Hello"
+          /></label>
+          <label class="form-field form-full"
+            ><span data-i18n="topicLabel">主題</span
+            ><select id="topicInput" name="topic"></select
+          ></label>
+          <label class="form-field form-full"
+            ><span data-i18n="levelPrompt">選擇程度</span
+            ><select id="levelInput" name="level">
+              <option value="beginner" data-i18n="levelBeginner">初級</option>
+              <option value="intermediate" data-i18n="levelIntermediate">中級</option>
+              <option value="upper" data-i18n="levelUpper">中高級</option>
+            </select></label
+          >
+          <label class="form-field form-full"
+            ><span data-i18n="kindPrompt">學習類型</span
+            ><select id="kindInput" name="kind">
+              <option value="word" data-i18n="kindWord">單字／詞組</option>
+              <option value="sentence" data-i18n="kindSentence">句子</option>
+            </select></label
+          >
+          <label class="form-field form-full" id="breakdownField" hidden
+            ><span data-i18n="breakdownInputLabel">逐字詞義（每行一個「泰語 = 英文意思」）</span
+            ><textarea
+              id="breakdownInput"
+              name="breakdown"
+              rows="4"
+              maxlength="8000"
+              placeholder="ฉัน = I&#10;อยาก = want&#10;ไป = go"
+              data-i18n-placeholder="breakdownPlaceholder"
+            ></textarea>
+          </label>
+          <label class="form-field form-full" id="newTopicField" hidden
+            ><span data-i18n="newTopicLabel">新主題名稱</span
+            ><input
+              id="newTopicInput"
+              name="newTopic"
+              maxlength="100"
+              placeholder="例如：工作與職場"
+              data-i18n-placeholder="newTopicPlaceholder"
+          /></label>
+          <details class="optional-fields form-full" id="optionalFields">
+            <summary data-i18n="optionalExamples">加入例句（選填）</summary>
+            <div class="optional-grid">
+              <label class="form-field form-full"
+                ><span data-i18n="exampleTargetLabel">例句（學習語言）</span
+                ><textarea
+                  id="exampleTargetInput"
+                  name="exampleTarget"
+                  rows="2"
+                  maxlength="2000"
+                  placeholder="寫下一句你會用到的話"
+                  data-i18n-placeholder="exampleTargetPlaceholder"
+                ></textarea></label
+              ><label class="form-field form-full"
+                ><span data-i18n="exampleReadingLabel">例句讀法</span
+                ><input
+                  id="exampleReadingInput"
+                  name="exampleReading"
+                  maxlength="4000"
+                  placeholder="例如：sà-wàt-dii khâ"
+                  data-i18n-placeholder="exampleReadingPlaceholder" /></label
+              ><label class="form-field form-full"
+                ><span data-i18n="exampleBaseLabel">例句翻譯</span
+                ><textarea
+                  id="exampleBaseInput"
+                  name="exampleBase"
+                  rows="2"
+                  maxlength="2000"
+                  placeholder="這句話的意思"
+                  data-i18n-placeholder="exampleBasePlaceholder"
+                ></textarea>
+              </label>
+            </div>
+          </details>
+        </div>
+        <details class="optional-fields" id="otherLanguages">
+          <summary data-i18n="editOtherLanguages">
+            其他語言版本（可自行修改；空白會自動翻譯）
+          </summary>
+          <div id="otherLanguageInputs" class="optional-grid"></div>
+        </details>
+        <p class="form-error" id="formError" role="alert" hidden></p>
+        <p id="formStatus" class="breakdown-hint" role="status" hidden></p>
+        <div class="dialog-actions">
+          <button class="button button-ghost" id="cancelDialog" type="button" data-i18n="cancel">
+            取消</button
+          ><button
+            class="button button-ghost"
+            id="saveAndAddButton"
+            type="submit"
+            data-save-mode="continue"
+            data-i18n="saveAndAdd"
+          >
+            儲存並繼續</button
+          ><button class="button button-dark" id="saveCardButton" type="submit">
+            <span data-i18n="saveCard">儲存字卡</span> <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog
+      id="wordCardDialog"
+      class="card-dialog word-card-dialog"
+      aria-labelledby="wordCardTitle"
+    >
+      <div class="dialog-head">
+        <h2 id="wordCardTitle">單字卡</h2>
+        <button
+          type="button"
+          class="icon-close"
+          id="closeWordCard"
+          aria-label="關閉"
+          data-i18n-aria="close"
+        >
+          ×
+        </button>
+      </div>
+      <div id="wordCardContent"></div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

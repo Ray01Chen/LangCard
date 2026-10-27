@@ -1,0 +1,16 @@
+{
+  "cards": 2205,
+  "words": 769,
+  "sentences": 1436,
+  "languages": 10,
+  "languagePairs": 90,
+  "projectedCards": 198450,
+  "breakdowns": 17240,
+  "tokenOccurrences": 119455,
+  "meaningChecks": 198747,
+  "englishFallbackChecks": 117408,
+  "readingChecks": 141505,
+  "pronunciation": "Google Translate",
+  "bundledAudioFiles": 0,
+  "errors": 0
+}
